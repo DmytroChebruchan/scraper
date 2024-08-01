@@ -1,5 +1,12 @@
+from request_info import RequestInfo
+import requests
+
+
 def main():
-    return "Hello, World!"
+    request_info = RequestInfo()
+    url_generated = request_info.url_generator()
+    # request = requests.get(url=request_info.url_generator())
+    print(url_generated)
 
 
 if __name__ == "__main__":
