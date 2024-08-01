@@ -1,27 +1,48 @@
 class RequestInfo:
     resource: str
-    years_of_experience_min: int
-    years_of_experience_max: int
-    skills: list
-    keywords: list
+    position: str
+    experience: list
     salary_range: dict
     locations: list
     url: str = ""
 
-    def __init__(self):
-        self.resource = ""
-        self.years_of_experience_min = 0
-        self.years_of_experience_max = 0
-        self.skills = []
-        self.keywords = []
-        self.salary_range = {"from": 0, "to": 1}
-        self.locations = []
+    def __init__(
+        self,
+        resource: str,
+        position: str,
+        experience: list,
+        min_salary: int,
+        max_salary: int,
+        locations: list,
+    ):
+        self.resource = resource
+        self.experience = experience
+        self.salary_range = {"from": min_salary, "to": max_salary}
+        self.locations = locations
+        self.position = position
 
     def url_generator(self):
         if self.url != "":
             return self.url
 
-        url = self.resource
-        url += "/?keywords="
+        url = self.resource + "/resumes-"
+
+        if self.locations:
+            url += "locations=" + "+".join(self.locations)
+
+        if self.position:
+            split_position_name = self.position.split(" ")
+            url += "+".join(split_position_name) + "/?"
+
+        if self.salary_range:
+            url += (
+                "salaryfrom="
+                + str(self.salary_range["from"])
+                + "&salaryto="
+                + str(self.salary_range["to"])
+            )
+        if self.experience:
+            url += "experience=" + "+".join(*self.experience)
+
         self.url = url
         return url
