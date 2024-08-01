@@ -1,10 +1,7 @@
-class RequestInfo:
-    resource: str
-    position: str
-    experience: list
-    salary_range: dict
-    locations: list
-    url: str = ""
+from abstract_classes import RequestInfoBase
+
+
+class RequestInfoInit(RequestInfoBase):
 
     def __init__(
         self,
@@ -13,22 +10,26 @@ class RequestInfo:
         experience: list,
         min_salary: int,
         max_salary: int,
-        locations: list,
+        location: str,
     ):
         self.resource = resource
         self.experience = experience
-        self.salary_range = {"from": min_salary, "to": max_salary}
-        self.locations = locations
+        self.salary_range = {"from": min_salary,
+                             "to": max_salary}
+        self.location = location
         self.position = position
+
+
+class RequestInfoWorkUa(RequestInfoInit):
 
     def url_generator(self):
         if self.url != "":
             return self.url
 
-        url = self.resource + "/resumes-"
+        url = self.resource
 
-        if self.locations:
-            url += "locations=" + "+".join(self.locations)
+        if self.location:
+            url += self.location + "-"
 
         if self.position:
             split_position_name = self.position.split(" ")
@@ -46,3 +47,9 @@ class RequestInfo:
 
         self.url = url
         return url
+
+
+class RequestInfoRabotaUa(RequestInfoInit):
+
+    def url_generator(self):
+        pass
