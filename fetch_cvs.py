@@ -1,5 +1,6 @@
 from constants import sources
 from request_info import RequestInfoWorkUa
+import requests
 
 
 def fetch_cvs():
@@ -16,4 +17,7 @@ def fetch_cvs():
     }
     request_info = RequestInfoWorkUa(**request_info_dict)
     url_generated = request_info.url_generator()
-    print(url_generated)
+    print(f'address is {url_generated}')
+    request = requests.get(url=url_generated)
+    print(f"status code is {request.status_code}")
+    return request.status_code
