@@ -1,4 +1,6 @@
 import unittest
+
+from fetch_cvs import fetch_cvs
 from request_info import RequestInfoWorkUa
 
 
@@ -57,6 +59,12 @@ class TestRequestInfoWorkUa(unittest.TestCase):
     def test_url_generator_with_existing_url(self):
         self.request_info.url = "https://existing.url"
         self.assertEqual(self.request_info.url_generator(), "https://existing.url")
+
+
+class TestFetchFunction(unittest.TestCase):
+    def test_fetch_function(self):
+        result_of_fetch=fetch_cvs()
+        self.assertEqual(result_of_fetch, 200)
 
 
 if __name__ == "__main__":
